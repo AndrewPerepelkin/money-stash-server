@@ -40,28 +40,55 @@ router
     }
   });
 
-router.delete('/:accountId', auth, async (req, res) => {
-  try {
-    const {accountId} = req.params;
-    const removedAccount = await Account.findById(accountId);
+router
+  .route('/:accountId')
+  .patch(auth, async (req, res) => {
+    try {
+      const {accountId} = req.params;
+      const currentAccount = await Account.findById(accountId);
+      if (currentAccount.userId === req.user._id) {
+        const updatedAccount = await Account.findByIdAndUpdate(
+          accountId,
+          req.body,
+          {
+            new: true
+          }
+        );
 
-    if (removedAccount.userId.toString() === req.user._id) {
-      await User.findByIdAndUpdate(
-        req.user._id,
-        {$pull: {categories: removedAccount._id}},
-        {new: true}
-      );
-      await removedAccount.remove();
+        // const list = await Account.find({_id: currentUser.accounts});
+        res.status(201).send(updatedAccount);
+      } else {
+        res.status(401).json({message: 'Unauthorized'});
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: 'На сервере произошла ошибка. Попробуйте позже...'
+      });
     }
+  })
+  .delete(auth, async (req, res) => {
+    try {
+      const {accountId} = req.params;
+      const removedAccount = await Account.findById(accountId);
 
-    const currentUser = await User.findById(req.user._id);
-    const list = await Account.find({_id: currentUser.accounts});
-    res.status(200).send(list);
-  } catch (error) {
-    res.status(500).json({
-      message: 'На сервере произошла ошибка. Попробуйте позже...'
-    });
-  }
-});
+      if (removedAccount.userId.toString() === req.user._id) {
+        await User.findByIdAndUpdate(
+          req.user._id,
+          {$pull: {categories: removedAccount._id}},
+          {new: true}
+        );
+        await removedAccount.remove();
+      }
+
+      const currentUser = await User.findById(req.user._id);
+      const list = await Account.find({_id: currentUser.accounts});
+      res.status(200).send(list);
+    } catch (error) {
+      res.status(500).json({
+        message: 'На сервере произошла ошибка. Попробуйте позже...'
+      });
+    }
+  });
 
 module.exports = router;
