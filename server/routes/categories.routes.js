@@ -52,7 +52,10 @@ router.delete('/:categoryId', auth, async (req, res) => {
       {new: true}
     );
 
-    if (removedCategory.custom) {
+    if (
+      removedCategory.custom &&
+      removedCategory.userId.toString() === req.user._id
+    ) {
       await removedCategory.remove();
     }
     const currentUser = await User.findById(req.user._id);

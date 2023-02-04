@@ -1,17 +1,20 @@
-const {Schema, model} = require('mongoose')
+const {Schema, model} = require('mongoose');
 
-const schema = new Schema({
-  user: { type: Schema.Types.ObjectId, ref: 'User' },
-  name: {
-    type: String,
-    required: true
+const schema = new Schema(
+  {
+    userId: {type: Schema.Types.ObjectId, ref: 'User'},
+    name: {
+      type: String,
+      required: true
+    },
+    amount: {
+      type: Number,
+      required: true
+    }
   },
-  amount: {
-    type: Number,
-    required: true
+  {
+    timestamps: true
   }
-}, {
-  timestamps: true
-})
+);
 
-module.exports = model('Account', schema)
+module.exports = model('Account', schema);
