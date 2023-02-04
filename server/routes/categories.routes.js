@@ -47,19 +47,43 @@ router
     try {
       const {categoryId} = req.params;
       const currentCategory = await Category.findById(categoryId);
-      if (currentCategory.userId === req.user._id) {
-        const updatedCategory = await Category.findByIdAndUpdate(
-          categoryId,
-          req.body,
-          {
-            new: true
-          }
+
+      if (currentCategory.custom) {
+        if (currentCategory.userId.toString() === req.user._id) {
+          const updatedCategory = await Category.findByIdAndUpdate(
+            categoryId,
+            req.body,
+            {
+              new: true
+            }
+          );
+
+          // const list = await Category.find({_id: currentUser.categories});
+          res.status(201).send(updatedCategory);
+        } else {
+          res.status(401).json({message: 'Unauthorized'});
+        }
+      } else {
+        const updatedCategory = await Category.create({
+          ...req.body,
+          type: currentCategory.type,
+          custom: true,
+          userId: req.user._id
+        });
+        console.log(updatedCategory);
+        await User.findByIdAndUpdate(
+          req.user._id,
+          {$push: {categories: updatedCategory._id}},
+          {new: true}
+        );
+        await User.findByIdAndUpdate(
+          req.user._id,
+          {$pull: {categories: currentCategory._id}},
+          {new: true}
         );
 
         // const list = await Category.find({_id: currentUser.categories});
         res.status(201).send(updatedCategory);
-      } else {
-        res.status(401).json({message: 'Unauthorized'});
       }
     } catch (error) {
       console.log(error);
