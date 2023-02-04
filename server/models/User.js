@@ -5,8 +5,8 @@ const schema = new Schema({
   email: {type: String, required: true, unique: true},
   password: String,
   image: String,
-  income: [{type: Schema.Types.ObjectId, ref: 'Income'}],
-  expenses: [{type: Schema.Types.ObjectId, ref: 'Expense'}],
+  transactions: [{type: Schema.Types.ObjectId, ref: 'Transaction'}],
+  categories: [{type: Schema.Types.ObjectId, ref: 'Category'}],
   accounts: [{type: Schema.Types.ObjectId, ref: 'Account'}],
 }, {
   timestamps: true

@@ -1,0 +1,87 @@
+[
+  {
+    "name": "Транспорт",
+    "type": "expense",
+    "custom": false
+  },
+  {
+    "name": "Учеба",
+    "type": "expense",
+    "custom": false
+  },
+  {
+    "name": "Техника",
+    "type": "expense",
+    "custom": false
+  },
+  {
+    "name": "Такси",
+    "type": "expense",
+    "custom": false
+  },
+  {
+    "name": "Спорт",
+    "type": "expense",
+    "custom": false
+  },
+  {
+    "name": "Подарки",
+    "type": "expense",
+    "custom": false
+  },
+  {
+    "name": "Питомцы",
+    "type": "expense",
+    "custom": false
+  },
+  {
+    "name": "Книги",
+    "type": "expense",
+    "custom": false
+  },
+  {
+    "name": "Кафе",
+    "type": "expense",
+    "custom": false
+  },
+  {
+    "name": "Еда",
+    "type": "expense",
+    "custom": false
+  },
+  {
+    "name": "Дом",
+    "type": "expense",
+    "custom": false
+  },
+  {
+    "name": "Здоровье",
+    "type": "expense",
+    "custom": false
+  },
+  {
+    "name": "Жилье",
+    "type": "expense",
+    "custom": false
+  },
+  {
+    "name": "Развлечения",
+    "type": "expense",
+    "custom": false
+  },
+  {
+    "name": "Работа",
+    "type": "income",
+    "custom": false
+  },
+  {
+    "name": "Работа 2",
+    "type": "income",
+    "custom": true
+  },
+  {
+    "name": "Дивиденды",
+    "type": "income",
+    "custom": false
+  }
+]

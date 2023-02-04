@@ -30,6 +30,14 @@ class TokenService {
     return token;
   }
 
+  validateAccess(accessToken) {
+    try {
+      return jwt.verify(accessToken, process.env.ACCESS_SECRET);
+    } catch (error) {
+      return null;
+    }
+  }
+
   validateRefresh(refreshToken) {
     try {
       return jwt.verify(refreshToken, process.env.REFRESH_SECRET);

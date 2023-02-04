@@ -4,6 +4,7 @@ const User = require('../models/User');
 const {generateUserImage} = require('../utils/helpers');
 const tokenService = require('../services/token.service');
 const {check, validationResult} = require('express-validator');
+const Category = require('../models/Category');
 
 const router = express.Router({mergeParams: true});
 
@@ -44,11 +45,13 @@ router.post('/singUp', [
       }
 
       const hashedPassword = await bcrypt.hash(password, 12);
+      const initCategories = await Category.find({custom: false})
 
       const newUser = await User.create({
         ...generateUserImage(),
         ...req.body,
-        password: hashedPassword
+        password: hashedPassword,
+        categories: initCategories
       });
 
       const tokens = tokenService.generate({_id: newUser._id});

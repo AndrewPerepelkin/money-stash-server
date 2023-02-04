@@ -2,7 +2,8 @@ const {Schema, model} = require('mongoose')
 
 const schema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User' },
-  category: { type: Schema.Types.ObjectId, ref: 'ExpenseCategory' },
+  type: {type: String, enum: ['income', 'expense']},
+  category: { type: Schema.Types.ObjectId, ref: 'Category' },
   account: { type: Schema.Types.ObjectId, ref: 'Account' },
   name: {
     type: String,
@@ -20,4 +21,4 @@ const schema = new Schema({
   timestamps: true
 })
 
-module.exports = model('Expense', schema)
+module.exports = model('Transaction', schema)

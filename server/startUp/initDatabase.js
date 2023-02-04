@@ -1,29 +1,27 @@
-const IncomeCategory = require('../models/IncomeCategory')
-const ExpensesCategory = require('../models/ExpensesCategory')
-const incomeCategoriesMock = require('../mock/incomeCategories.json')
-const expensesCategoriesMock = require('../mock/expensesCategories.json')
+const Category = require('../models/Category');
+const categoriesMock = require('../mock/Categories.json');
 
 module.exports = async () => {
-  const incomeCategories = await IncomeCategory.find()
-  if (incomeCategories.length !== incomeCategoriesMock.length) {
-    createInitialEntity(IncomeCategory, incomeCategoriesMock)
+  const categories = await Category.find();
+  // if (Categories.length !== CategoriesMock.length) {
+  //   createInitialEntity(Category, CategoriesMock)
+  // }
+  if (!categories) {
+    createInitialEntity(Category, categoriesMock);
   }
-
-  const expensesCategories = await ExpensesCategory.find()
-  if (expensesCategories.length !== expensesCategoriesMock.length) {
-    createInitialEntity(ExpensesCategory, expensesCategoriesMock)
-  }
-}
+};
 
 async function createInitialEntity(Model, data) {
-  await Model.collection.drop()
-  return Promise.all(data.map(async item => {
-    try {
-      const newItem = new Model(item)
-      await newItem.save()
-      return newItem
-    } catch (error) {
-      return error
-    }
-  }))
+  await Model.collection.drop();
+  return Promise.all(
+    data.map(async (item) => {
+      try {
+        const newItem = new Model(item);
+        await newItem.save();
+        return newItem;
+      } catch (error) {
+        return error;
+      }
+    })
+  );
 }
